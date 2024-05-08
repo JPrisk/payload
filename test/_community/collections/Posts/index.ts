@@ -5,6 +5,12 @@ import { mediaSlug } from '../Media'
 export const postsSlug = 'posts'
 
 export const PostsCollection: CollectionConfig = {
+  admin: {
+    useAsTitle: 'text',
+  },
+  versions: {
+    drafts: true,
+  },
   fields: [
     {
       name: 'text',
@@ -18,6 +24,21 @@ export const PostsCollection: CollectionConfig = {
       },
       relationTo: mediaSlug,
       type: 'upload',
+    },
+    {
+      name: 'relatedPosts',
+      relationTo: postsSlug,
+      type: 'relationship',
+      filterOptions: ({ id }) => {
+        return {
+          id: { not_equals: id },
+          and: [
+            {
+              _status: { equals: 'published' },
+            },
+          ],
+        }
+      },
     },
   ],
   slug: postsSlug,

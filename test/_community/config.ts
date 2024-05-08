@@ -28,7 +28,7 @@ export default buildConfigWithDefaults({
       },
     })
 
-    await payload.create({
+    const firstPost = await payload.create({
       collection: postsSlug,
       data: {
         text: 'example post 1 [published]',
@@ -39,7 +39,8 @@ export default buildConfigWithDefaults({
     await payload.create({
       collection: postsSlug,
       data: {
-        text: 'example post 2 [pulbished]',
+        text: 'example post 2 [published]',
+        relatedPosts: firstPost.id,
         _status: 'published',
       },
     })

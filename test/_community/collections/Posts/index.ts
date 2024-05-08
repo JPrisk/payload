@@ -30,6 +30,10 @@ export const PostsCollection: CollectionConfig = {
       relationTo: postsSlug,
       type: 'relationship',
       filterOptions: ({ id }) => {
+        // early return to allow seeding without id
+        if (!id) return
+        // filter out the current post
+        // and only show published posts
         return {
           id: { not_equals: id },
           and: [
